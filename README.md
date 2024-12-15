@@ -3,6 +3,8 @@
 > [!WARNING]
 > Work in progress. Not ready for production use.
 
+<img src='https://b2.skip.lol/capstone.png' align='right' width='325' />
+
 capstone is a [React] renderer for [AppKit] that lets you create
 native macOS apps using JavaScript.
 
@@ -14,7 +16,7 @@ import {run} from 'capstone';
 import {useState} from 'react';
 
 function App() {
-  return <window title='hello, capstone!' />;
+  return <window title='my cool app'>hello from capstone</window>;
 }
 
 run(<App />);
