@@ -1,1 +1,3 @@
-import CapstoneReconciler from 'capstone-reconciler';
+export function run() {
+  $.NSRunLoop.currentRunLoop.run;
+}

@@ -34,7 +34,7 @@ let hostConfig: ReactReconciler.HostConfig<
   clearContainer(_container) {},
   resetAfterCommit(_container) {},
   createInstance(type, props, rootContainer, hostContext, internalHandle) {
-    console.log('createInstance', {
+    console.log('** createInstance', {
       type,
       props,
       rootContainer,
@@ -58,7 +58,7 @@ let hostConfig: ReactReconciler.HostConfig<
   },
   appendChildToContainer(container, child) {
     console.log(
-      'appendChildToContainer! container:',
+      '** appendChildToContainer! container:',
       container,
       'child:',
       child,
@@ -67,9 +67,19 @@ let hostConfig: ReactReconciler.HostConfig<
   maySuspendCommit(_type, _props) {
     return false;
   },
+  detachDeletedInstance(_node) {},
   getChildHostContext(parentHostContext, _type, _rootContainer) {
     return parentHostContext;
   },
+  removeChildFromContainer(_container, _child) {},
+  commitUpdate(
+    _instance,
+    _updatePayload,
+    _type,
+    _prevProps,
+    _nextProps,
+    _internalHandle,
+  ) {},
   supportsMutation: true,
 };
 
@@ -88,7 +98,7 @@ export function create(element: React.ReactNode) {
     /* concurrentUpdatesByDefaultOverride */ false,
     /* identifierPrefix */ '',
     /* onRecoverableError */ (error) =>
-      console.error('Capstone Recoverable Error:', error),
+      console.log('Capstone Recoverable Error:', error),
     /* transitionCallbacks */ null,
   );
   Reconciler.updateContainer(element, root);

@@ -44,6 +44,9 @@ importers:
 
   capstone-test:
     dependencies:
+      capstone:
+        specifier: workspace:^
+        version: link:../capstone
       capstone-reconciler:
         specifier: 'workspace:'
         version: link:../capstone-reconciler

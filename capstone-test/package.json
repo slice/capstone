@@ -6,7 +6,8 @@
   "author": "Skip R. <i@ski.pe> (https://skip.house)",
   "license": "MIT",
   "dependencies": {
-    "capstone-reconciler": "workspace:",
+    "capstone": "workspace:^",
+    "capstone-reconciler": "workspace:^",
     "react": "catalog:"
   },
   "devDependencies": {

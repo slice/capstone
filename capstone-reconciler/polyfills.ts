@@ -5,19 +5,20 @@ const DISPATCH_TIME_NOW = 0; /*ull*/
 // cribbed from https://gist.github.com/umireon/d1d449be666053b005e48db48aad6c46
 function foundationTimer(
   callback: () => void,
-  ms: number = 0,
+  ms: number,
   repeats: boolean = false,
 ) {
   let operation = $.NSBlockOperation.blockOperationWithBlock(callback);
+  const effectiveDelaySeconds = Math.max(1, ms) / 1000;
   let timer = $.NSTimer.timerWithTimeIntervalTargetSelectorUserInfoRepeats(
-    ms / 1000,
+    effectiveDelaySeconds,
     operation,
     'main',
     null,
     repeats,
   );
-  $.NSRunLoop.currentRunLoop.addTimerForMode(timer, 'timer');
-  console.log('[:D] created timer', timer);
+  $.NSRunLoop.currentRunLoop.addTimerForMode(timer, 'kCFRunLoopDefaultMode');
+  console.log(`[:D] new timer being called in ${effectiveDelaySeconds}s`);
   return timer;
 }
 
