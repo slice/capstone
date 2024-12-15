@@ -11,7 +11,7 @@ function App() {
     return () => clearInterval(timer);
   }, []);
 
-  return <window />;
+  return <window title='hello, capstone' />;
 }
 
 run(<App />);

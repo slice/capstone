@@ -1,6 +1,12 @@
 import {create} from '../capstone-reconciler';
+import {subclassAppDelegate} from './delegate';
 
 export function run(tree: React.ReactNode) {
-  create(tree);
-  $.NSRunLoop.currentRunLoop.run;
+  subclassAppDelegate({
+    didFinishLaunching() {
+      create(tree);
+    },
+  });
+
+  $.NSApplication.sharedApplication.run;
 }

@@ -1,13 +1,16 @@
 import ReactReconciler, {OpaqueRoot} from 'react-reconciler';
 import {ConcurrentRoot, DefaultEventPriority} from 'react-reconciler/constants';
 
+import IntrinsicElements from './intrinsic';
+import {Instance} from './instance';
+
 let hostConfig: ReactReconciler.HostConfig<
-  unknown,
-  unknown,
-  unknown,
-  unknown,
-  unknown,
-  unknown,
+  /* Type */ string,
+  /* Props */ Record<string, any>,
+  /* Container */ unknown,
+  Instance,
+  /* TextInstance */ {is: 'text'; props: {children: React.ReactNode}},
+  /* SuspenseInstance */ never,
   unknown,
   unknown,
   unknown,
@@ -33,15 +36,13 @@ let hostConfig: ReactReconciler.HostConfig<
   },
   clearContainer(_container) {},
   resetAfterCommit(_container) {},
-  createInstance(type, props, rootContainer, hostContext, internalHandle) {
-    console.log('** createInstance', {
-      type,
-      props,
-      rootContainer,
-      hostContext,
-      internalHandle,
-    });
-    return {};
+  createInstance(type, props, _rootContainer, _hostContext, _internalHandle) {
+    if (!Object.prototype.hasOwnProperty.call(IntrinsicElements, type)) {
+      throw new Error(`Capstone: unknown intrinsic element: ${type}`);
+    }
+
+    console.log('[Create]', type);
+    return IntrinsicElements[type](props);
   },
   createTextInstance(_text, _rootContainer, _hostContext, _internalHandle) {},
   shouldSetTextContent(_type, _props) {
@@ -56,13 +57,10 @@ let hostConfig: ReactReconciler.HostConfig<
   ) {
     return false;
   },
-  appendChildToContainer(container, child) {
-    console.log(
-      '** appendChildToContainer! container:',
-      container,
-      'child:',
-      child,
-    );
+  appendChildToContainer(_container, child) {
+    if (child.is === 'window') {
+      child.backing.makeKeyAndOrderFront($());
+    }
   },
   maySuspendCommit(_type, _props) {
     return false;
@@ -71,7 +69,11 @@ let hostConfig: ReactReconciler.HostConfig<
   getChildHostContext(parentHostContext, _type, _rootContainer) {
     return parentHostContext;
   },
-  removeChildFromContainer(_container, _child) {},
+  removeChildFromContainer(_container, child) {
+    if (child.is === 'window') {
+      child.backing.close();
+    }
+  },
   commitUpdate(
     _instance,
     _updatePayload,
