@@ -13,8 +13,7 @@ const IntrinsicElements = {
       $.NSMakeRect(0, 0, 400, 400),
       $.NSTitledWindowMask |
         $.NSWindowStyleMaskClosable |
-        $.NSWindowStyleMaskMiniaturizable |
-        $.NSFullSizeContentViewWindowMask,
+        $.NSWindowStyleMaskMiniaturizable,
       $.NSBackingStoreBuffered,
       false,
     );
@@ -23,7 +22,7 @@ const IntrinsicElements = {
     window.title = props.title ?? 'Capstone Window';
     window.movableByWindowBackground = props.movableByWindowBackground ?? false;
 
-    return {is: 'window', props, backing: window};
+    return {is: 'window', backing: window, view: $()};
   },
 } as const satisfies IntrinsicElements;
 

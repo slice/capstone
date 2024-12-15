@@ -1,15 +1,22 @@
+import {PropsWithChildren} from 'react';
+
 export type InstanceProps = {
-  window: {title?: string; movableByWindowBackground?: boolean};
-  text: {children: string};
+  window: PropsWithChildren<{
+    title?: string;
+    movableByWindowBackground?: boolean;
+  }>;
+};
+
+export type TextInstance = {
+  is: 'text';
+  view: unknown;
 };
 
 export type Instance =
   | {
       is: 'window';
-      props: InstanceProps['window'];
       backing: unknown;
+      // TODO: restrict this type
+      view: Instance;
     }
-  | {
-      is: 'text';
-      props: InstanceProps['text'];
-    };
+  | TextInstance;
