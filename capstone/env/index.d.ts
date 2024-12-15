@@ -1,4 +1,5 @@
 import './jsx';
+import './jxa';
 
 declare global {
   type CapstoneDispatchTimer = {[__capstone$opaque$timer]: true};
@@ -15,15 +16,4 @@ declare global {
   ): CapstoneDispatchTimer;
   function clearInterval(timer: CapstoneDispatchTimer): void;
   function clearTimeout(timer: CapstoneDispatchTimer): void;
-
-  const console: {log: (...values: any[]) => void};
-
-  const ObjC: {
-    import(framework: string): void;
-  };
-
-  const $: {
-    (...args: any[]): any;
-    [klass: string]: any;
-  };
 }

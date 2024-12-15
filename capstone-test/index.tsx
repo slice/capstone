@@ -1,6 +1,5 @@
 import {create} from 'capstone-reconciler';
 import {run} from 'capstone';
-import {Window} from 'capstone-reconciler/intrinsic';
 import {useEffect} from 'react';
 
 console.log(':3');
