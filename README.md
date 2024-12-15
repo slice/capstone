@@ -13,7 +13,6 @@ native macOS apps using JavaScript.
 
 ```tsx
 import {run} from 'capstone';
-import {useState} from 'react';
 
 function App() {
   return (
