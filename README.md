@@ -16,7 +16,11 @@ import {run} from 'capstone';
 import {useState} from 'react';
 
 function App() {
-  return <window title='my cool app'>hello from capstone</window>;
+  return (
+    <window title='my cool app'>
+      hello from capstone
+    </window>
+  );
 }
 
 run(<App />);
