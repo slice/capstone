@@ -1,0 +1,5 @@
+packages:
+- 'capstone-*'
+
+catalog:
+  react-reconciler: ^0.31.0
