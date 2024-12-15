@@ -4,6 +4,7 @@ import {ConcurrentRoot, DefaultEventPriority} from 'react-reconciler/constants';
 import IntrinsicElements from './intrinsic';
 import {Instance, TextInstance} from './instance';
 
+// @ts-expect-error implement as you go
 let hostConfig: ReactReconciler.HostConfig<
   /* Type */ string,
   /* Props */ Record<string, any>,
@@ -69,7 +70,7 @@ let hostConfig: ReactReconciler.HostConfig<
   maySuspendCommit(_type, _props) {
     return false;
   },
-  commitMount(instance, type, _props, _internalInstanceHandle) {
+  commitMount(instance, _type, _props, _internalInstanceHandle) {
     if (instance.is === 'window') {
       // @ts-expect-error
       instance.backing.makeKeyAndOrderFront($());
