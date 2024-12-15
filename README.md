@@ -11,7 +11,7 @@ native macOS apps using JavaScript.
 [react]: https://react.dev
 [appkit]: https://developer.apple.com/documentation/appkit
 
-```typescript
+```tsx
 import {run} from 'capstone';
 import {useState} from 'react';
 
