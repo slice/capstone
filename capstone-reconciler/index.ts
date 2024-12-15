@@ -16,6 +16,7 @@ let hostConfig: ReactReconciler.HostConfig<
   unknown,
   unknown
 > = {
+  isPrimaryRenderer: true,
   getRootHostContext() {},
   resolveUpdatePriority() {
     return DefaultEventPriority;
@@ -33,7 +34,13 @@ let hostConfig: ReactReconciler.HostConfig<
   clearContainer(_container) {},
   resetAfterCommit(_container) {},
   createInstance(type, props, rootContainer, hostContext, internalHandle) {
-    console.log(type, props, rootContainer, hostContext, internalHandle);
+    console.log('createInstance', {
+      type,
+      props,
+      rootContainer,
+      hostContext,
+      internalHandle,
+    });
     return {};
   },
   createTextInstance(_text, _rootContainer, _hostContext, _internalHandle) {},
@@ -49,7 +56,14 @@ let hostConfig: ReactReconciler.HostConfig<
   ) {
     return false;
   },
-  appendChildToContainer(_container, _child) {},
+  appendChildToContainer(container, child) {
+    console.log(
+      'appendChildToContainer! container:',
+      container,
+      'child:',
+      child,
+    );
+  },
   maySuspendCommit(_type, _props) {
     return false;
   },
@@ -67,8 +81,8 @@ let root: OpaqueRoot;
 
 export function create(element: React.ReactNode) {
   root ??= Reconciler.createContainer(
-    element,
-    ConcurrentRoot,
+    /* container */ {},
+    /* tag */ ConcurrentRoot,
     /* hydrationCallbacks */ null,
     /* isStrictMode */ false,
     /* concurrentUpdatesByDefaultOverride */ false,
