@@ -31,6 +31,9 @@ importers:
 
   capstone:
     dependencies:
+      capstone-bridge:
+        specifier: workspace:^
+        version: link:../capstone-bridge
       capstone-reconciler:
         specifier: 'workspace:'
         version: link:../capstone-reconciler
