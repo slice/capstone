@@ -1,6 +1,4 @@
-ObjC.import('dispatch');
-
-const DISPATCH_TIME_NOW = 0; /*ull*/
+const kCFRunLoopDefaultMode = 'kCFRunLoopDefaultMode';
 
 // cribbed from https://gist.github.com/umireon/d1d449be666053b005e48db48aad6c46
 function foundationTimer(
@@ -17,7 +15,7 @@ function foundationTimer(
     null,
     repeats,
   );
-  $.NSRunLoop.currentRunLoop.addTimerForMode(timer, 'kCFRunLoopDefaultMode');
+  $.NSRunLoop.currentRunLoop.addTimerForMode(timer, kCFRunLoopDefaultMode);
   return timer;
 }
 
