@@ -1,17 +1,11 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig.json",
   "compilerOptions": {
-    "module": "Preserve",
     "lib": [
       "ES2023"
     ],
-    "types": [
-      "capstone/env"
-    ],
-    "esModuleInterop": true,
-    "jsx": "react-jsx"
   },
   "files": [
-    "index.tsx"
+    "index.d.ts"
   ]
 }

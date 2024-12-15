@@ -21,6 +21,9 @@ catalogs:
     react-reconciler:
       specifier: ^0.31.0
       version: 0.31.0
+    typescript:
+      specifier: ^5.7.2
+      version: 5.7.2
 
 importers:
 
@@ -31,6 +34,10 @@ importers:
       capstone-reconciler:
         specifier: 'workspace:'
         version: link:../capstone-reconciler
+    devDependencies:
+      '@types/react':
+        specifier: 'catalog:'
+        version: 19.0.1
 
   capstone-reconciler:
     dependencies:
@@ -48,21 +55,29 @@ importers:
         specifier: workspace:^
         version: link:../capstone
       capstone-reconciler:
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../capstone-reconciler
       react:
         specifier: 'catalog:'
         version: 19.1.0-canary-4dff0e62-20241213
     devDependencies:
+      '@types/capstone':
+        specifier: workspace:capstone-types@*
+        version: link:../capstone-types
       '@types/node':
         specifier: 'catalog:'
         version: 22.10.2
       '@types/react':
         specifier: 'catalog:'
         version: 19.0.1
+      typescript:
+        specifier: 'catalog:'
+        version: 5.7.2
       vite:
         specifier: ^6.0.3
         version: 6.0.3(@types/node@22.10.2)
+
+  capstone-types: {}
 
 packages:
 
@@ -366,6 +381,11 @@ packages:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
     engines: {node: '>=0.10.0'}
 
+  typescript@5.7.2:
+    resolution: {integrity: sha512-i5t66RHxDvVN40HfDd1PsEThGNnlMCMT3jMUuoh9/0TaqWevNontacunWyN02LA9/fIbEWlcHZcgTKb9QoaLfg==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+
   undici-types@6.20.0:
     resolution: {integrity: sha512-Ny6QZ2Nju20vw1SRHe3d9jVu6gJ+4e3+MMpqu7pqE5HT6WsTSlce++GQmK5UXS8mzV8DSYHrQH+Xrf2jVcuKNg==}
 
@@ -631,6 +651,8 @@ snapshots:
   scheduler@0.25.0: {}
 
   source-map-js@1.2.1: {}
+
+  typescript@5.7.2: {}
 
   undici-types@6.20.0: {}
 

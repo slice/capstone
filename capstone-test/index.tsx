@@ -1,13 +1,12 @@
 import {create} from 'capstone-reconciler';
 import {run} from 'capstone';
 import {Window} from 'capstone-reconciler/intrinsic';
-import {useEffect, useReducer} from 'react';
+import {useEffect} from 'react';
 
 console.log(':3');
+console.log(Array.prototype.with);
 
 function App() {
-  let [, rerender] = useReducer(() => true, false);
-
   useEffect(() => {
     let timer = setInterval(() => {
       console.log('\\o/');
@@ -15,7 +14,7 @@ function App() {
     return () => clearInterval(timer);
   }, []);
 
-  return <Window />;
+  return <window />;
 }
 
 create(<App />);
