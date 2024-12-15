@@ -3,7 +3,7 @@
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
     "types": [
-      "capstone-reconciler/jsx",
+      "capstone/jsx",
       "capstone-bridge/jxa"
     ]
   },
