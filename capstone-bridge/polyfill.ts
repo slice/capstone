@@ -7,6 +7,8 @@ function foundationTimer(
   repeats: boolean = false,
 ) {
   let operation = $.NSBlockOperation.blockOperationWithBlock(callback);
+  // FIXME: creating a timer with 0 delay doesn't really work, but we should be
+  // using performBlock: for that anyways probably.
   const effectiveDelaySeconds = Math.max(1, ms) / 1000;
   let timer = $.NSTimer.timerWithTimeIntervalTargetSelectorUserInfoRepeats(
     effectiveDelaySeconds,
@@ -19,15 +21,23 @@ function foundationTimer(
   return timer;
 }
 
-globalThis.setTimeout = function funnySetTimeout(callback, ms, ...args) {
-  return foundationTimer(callback.bind(callback, ...args), ms, false);
+globalThis.setTimeout = function funnySetTimeout(
+  callback,
+  ms,
+): CapstoneDispatchTimer {
+  return foundationTimer(callback.bind(callback), ms, false);
 };
 
-globalThis.setInterval = function funnySetTimeout(callback, ms, ...args) {
-  return foundationTimer(callback.bind(callback, ...args), ms, true);
+globalThis.setInterval = function funnySetTimeout(
+  callback,
+  ms,
+): CapstoneDispatchTimer {
+  return foundationTimer(callback.bind(callback), ms, true);
 };
 
-function invalidate(timer) {
+function invalidate(timer: CapstoneDispatchTimer) {
+  // TODO: does this need $(…)? why?
+  // @ts-expect-error
   $(timer.invalidate);
 }
 

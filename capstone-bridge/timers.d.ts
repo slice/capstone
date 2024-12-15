@@ -1,6 +1,3 @@
-import './jsx';
-import './jxa';
-
 declare global {
   type CapstoneDispatchTimer = {[__capstone$opaque$timer]: true};
   const __capstone$opaque$timer: unique symbol;
@@ -17,3 +14,6 @@ declare global {
   function clearInterval(timer: CapstoneDispatchTimer): void;
   function clearTimeout(timer: CapstoneDispatchTimer): void;
 }
+
+// make this file a module
+export {};

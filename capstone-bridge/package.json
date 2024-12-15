@@ -1,16 +1,11 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "capstone-reconciler",
+  "name": "capstone-bridge",
   "version": "0.0.0",
   "type": "module",
   "author": "Skip R. <i@ski.pe> (https://skip.house)",
   "license": "MIT",
-  "dependencies": {
-    "capstone-bridge": "workspace:^",
-    "react-reconciler": "catalog:"
-  },
   "devDependencies": {
-    "@types/react": "catalog:",
-    "@types/react-reconciler": "catalog:"
+    "@types/react": "catalog:"
   }
 }

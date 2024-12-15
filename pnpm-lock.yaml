@@ -50,6 +50,9 @@ importers:
 
   capstone-reconciler:
     dependencies:
+      capstone-bridge:
+        specifier: workspace:^
+        version: link:../capstone-bridge
       react-reconciler:
         specifier: 'catalog:'
         version: 0.31.0(react@19.1.0-canary-4dff0e62-20241213)

@@ -1,7 +1,8 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig.json",
   "extends": "../tsconfig.base.json",
-  "files": [
-    "index.tsx"
+  "include": [
+    "*.ts",
+    "*.d.ts"
   ]
 }

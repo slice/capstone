@@ -1,6 +1,7 @@
 // needed for augmentation to work
 import 'react';
-import {InstanceProps} from 'capstone-reconciler/instance';
+
+import {InstanceProps} from './instance';
 
 declare module 'react' {
   namespace JSX {
