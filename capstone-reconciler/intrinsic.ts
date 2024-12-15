@@ -1,7 +1,6 @@
 import {Instance, InstanceProps} from './instance';
 
 type IntrinsicElements = {
-  // TODO: implement text as NSTextField
   [IntrinsicName in keyof Omit<InstanceProps, 'text'>]: (
     props: InstanceProps[IntrinsicName],
   ) => Instance;
