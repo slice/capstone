@@ -3,7 +3,6 @@ import {run} from 'capstone';
 import {useEffect} from 'react';
 
 console.log(':3');
-console.log(Array.prototype.with);
 
 function App() {
   useEffect(() => {
@@ -17,5 +16,4 @@ function App() {
 }
 
 create(<App />);
-console.log('create() done, running');
 run();
