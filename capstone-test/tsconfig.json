@@ -1,6 +1,12 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig.json",
   "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "types": [
+      "capstone-reconciler/jsx",
+      "capstone-bridge/jxa"
+    ]
+  },
   "files": [
     "index.tsx"
   ]

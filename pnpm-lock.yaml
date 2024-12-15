@@ -69,6 +69,9 @@ importers:
       capstone:
         specifier: workspace:^
         version: link:../capstone
+      capstone-bridge:
+        specifier: workspace:^
+        version: link:../capstone-bridge
       capstone-reconciler:
         specifier: workspace:^
         version: link:../capstone-reconciler
