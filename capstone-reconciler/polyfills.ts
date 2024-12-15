@@ -18,7 +18,6 @@ function foundationTimer(
     repeats,
   );
   $.NSRunLoop.currentRunLoop.addTimerForMode(timer, 'kCFRunLoopDefaultMode');
-  console.log(`[:D] new timer being called in ${effectiveDelaySeconds}s`);
   return timer;
 }
 

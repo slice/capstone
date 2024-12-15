@@ -34,6 +34,9 @@ importers:
       capstone-reconciler:
         specifier: 'workspace:'
         version: link:../capstone-reconciler
+      react:
+        specifier: 'catalog:'
+        version: 19.1.0-canary-4dff0e62-20241213
     devDependencies:
       '@types/react':
         specifier: 'catalog:'

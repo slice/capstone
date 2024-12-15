@@ -41,7 +41,6 @@ let hostConfig: ReactReconciler.HostConfig<
       throw new Error(`Capstone: unknown intrinsic element: ${type}`);
     }
 
-    console.log('[Create]', type);
     return IntrinsicElements[type](props);
   },
   createTextInstance(text, _rootContainer, _hostContext, _internalHandle) {
@@ -61,10 +60,8 @@ let hostConfig: ReactReconciler.HostConfig<
   },
   appendChildToContainer(_container, _child) {},
   appendInitialChild(parentInstance, child) {
-    console.log(`child ${child.is} being added to ${parentInstance.is}`);
     if (parentInstance.is === 'window') {
       parentInstance.view = child;
-      console.log('window is:', parentInstance.backing);
       // @ts-expect-error
       parentInstance.backing.contentView = child.view;
     }
@@ -73,13 +70,13 @@ let hostConfig: ReactReconciler.HostConfig<
     return false;
   },
   commitMount(instance, type, _props, _internalInstanceHandle) {
-    console.log('commitMount for', instance.is, `(${type})`);
     if (instance.is === 'window') {
       // @ts-expect-error
       instance.backing.makeKeyAndOrderFront($());
     }
   },
-  commitTextUpdate(textInstance, oldText, newText) {
+  commitTextUpdate(textInstance, _oldText, newText) {
+    // @ts-expect-error
     textInstance.view.stringValue = newText;
   },
   detachDeletedInstance(_node) {},
