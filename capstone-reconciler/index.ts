@@ -16,16 +16,46 @@ let hostConfig: ReactReconciler.HostConfig<
   unknown,
   unknown
 > = {
-  getRootHostContext: () => {},
-  resolveUpdatePriority: () => DefaultEventPriority,
-  getCurrentEventPriority: () => DefaultEventPriority,
-  getCurrentUpdatePriority: () => 0 /* NoEventPriority */,
-  setCurrentUpdatePriority: (_: unknown) => {},
-  prepareForCommit: (container) => null,
-  clearContainer: (container) => {},
-  resetAfterCommit: (container) => {},
-  createTextInstance: (text, rootContainer, hostContext, internalHandle) => {},
-  appendChildToContainer: (container, child) => {},
+  getRootHostContext() {},
+  resolveUpdatePriority() {
+    return DefaultEventPriority;
+  },
+  getCurrentEventPriority() {
+    return DefaultEventPriority;
+  },
+  getCurrentUpdatePriority() {
+    return 0; /* NoEventPriority */
+  },
+  setCurrentUpdatePriority(_: unknown) {},
+  prepareForCommit(_container) {
+    return null;
+  },
+  clearContainer(_container) {},
+  resetAfterCommit(_container) {},
+  createInstance(type, props, rootContainer, hostContext, internalHandle) {
+    console.log(type, props, rootContainer, hostContext, internalHandle);
+    return {};
+  },
+  createTextInstance(_text, _rootContainer, _hostContext, _internalHandle) {},
+  shouldSetTextContent(_type, _props) {
+    return false;
+  },
+  finalizeInitialChildren(
+    _instance,
+    _type,
+    _props,
+    _rootContainer,
+    _hostContext,
+  ) {
+    return false;
+  },
+  appendChildToContainer(_container, _child) {},
+  maySuspendCommit(_type, _props) {
+    return false;
+  },
+  getChildHostContext(parentHostContext, _type, _rootContainer) {
+    return parentHostContext;
+  },
   supportsMutation: true,
 };
 

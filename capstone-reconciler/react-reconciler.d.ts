@@ -20,6 +20,8 @@ declare module 'react-reconciler' {
     resolveUpdatePriority(): EventPriority;
     getCurrentUpdatePriority(): EventPriority;
     setCurrentUpdatePriority(newPriority: EventPriority): void;
+
+    maySuspendCommit(type: Type, props: Props): boolean;
   }
 }
 
