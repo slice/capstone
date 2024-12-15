@@ -1,6 +1,5 @@
-import {create} from 'capstone-reconciler';
-import {run} from 'capstone';
 import {useEffect} from 'react';
+import {run} from 'capstone';
 
 console.log(':3');
 
@@ -15,5 +14,4 @@ function App() {
   return <window />;
 }
 
-create(<App />);
-run();
+run(<App />);
