@@ -1,5 +1,7 @@
 packages:
+- 'capstone'
 - 'capstone-*'
 
 catalog:
   react-reconciler: ^0.31.0
+  '@types/react-reconciler': ^0.28.9
