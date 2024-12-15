@@ -6,6 +6,9 @@ settings:
 
 catalogs:
   default:
+    '@types/react':
+      specifier: ^19.0.1
+      version: 19.0.1
     '@types/react-reconciler':
       specifier: ^0.28.9
       version: 0.28.9
@@ -44,6 +47,10 @@ importers:
       react:
         specifier: 'catalog:'
         version: 19.1.0-canary-4dff0e62-20241213
+    devDependencies:
+      '@types/react':
+        specifier: 'catalog:'
+        version: 19.0.1
 
 packages:
 

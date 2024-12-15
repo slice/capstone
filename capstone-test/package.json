@@ -8,5 +8,8 @@
   "dependencies": {
     "capstone-reconciler": "workspace:",
     "react": "catalog:"
+  },
+  "devDependencies": {
+    "@types/react": "catalog:"
   }
 }

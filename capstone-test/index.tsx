@@ -1,5 +1,5 @@
 import CapstoneReconciler, {create} from 'capstone-reconciler';
-import {Window} from 'capstone-reconciler/primitives';
+import {Window} from 'capstone-reconciler/intrinsic';
 
 console.log(':3');
 
