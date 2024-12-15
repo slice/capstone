@@ -4,6 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "author": "Skip R. <i@ski.pe> (https://skip.house)",
+  "scripts": {
+    "test": "pnpm run --filter capstone-test build && osascript -l JavaScript capstone-test/build/capstone.js"
+  },
   "license": "MIT",
   "prettier": {
     "singleQuote": true,
