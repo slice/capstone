@@ -14,7 +14,6 @@
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "typescript": "catalog:",
-    "@types/capstone": "workspace:capstone-types@*",
     "vite": "^6.0.3"
   },
   "scripts": {
