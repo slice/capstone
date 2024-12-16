@@ -1,11 +1,14 @@
+import {inspect} from 'capstone-bridge/introspection';
 import {Instance, IntrinsicElementProps} from './intrinsic';
 
 export const CONSTRAINT_DIMENSIONS = ['width', 'height'] as const;
 
+export type ConstraintConstant = number;
+
 export type ConstraintDimensions = (typeof CONSTRAINT_DIMENSIONS)[number];
 
 export type ConstraintRightSide = {
-  equal: number | ConstraintDescriptor;
+  equal: ConstraintConstant | ConstraintDescriptor;
 };
 
 /**
@@ -40,6 +43,7 @@ function descriptionToAnchor(description: ConstraintDescriptor): unknown {
 export function createConstraint(
   props: IntrinsicElementProps['constraint'],
 ): unknown {
+  console.log('createConstraint:', inspect(props));
   let {let: description} = props;
   let anchor = descriptionToAnchor(description);
 
