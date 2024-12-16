@@ -2,13 +2,28 @@ import {inspect} from 'capstone-bridge/introspection';
 import {Instance, IntrinsicElementProps} from './intrinsic';
 
 export const CONSTRAINT_DIMENSIONS = ['width', 'height'] as const;
+export const CONSTRAINT_ANCHORS = [
+  'centerX',
+  'centerY',
+  'leading',
+  'trailing',
+  'top',
+  'bottom',
+] as const;
 
 export type ConstraintConstant = number;
 
 export type ConstraintDimensions = (typeof CONSTRAINT_DIMENSIONS)[number];
+export type ConstraintAnchors = (typeof CONSTRAINT_ANCHORS)[number];
+export type ConstraintTypes = ConstraintAnchors | ConstraintDimensions;
+export type ConstraintTarget = ConstraintConstant | ConstraintDescriptor;
+
+export const CONSTRAINT_RELATIONS = ['eq', 'gte', 'lte'] as const;
+export type ConstraintRelation = (typeof CONSTRAINT_RELATIONS)[number];
 
 export type ConstraintRightSide = {
-  equal: ConstraintConstant | ConstraintDescriptor;
+  type: ConstraintRelation;
+  target: ConstraintTarget;
 };
 
 /**
@@ -16,27 +31,48 @@ export type ConstraintRightSide = {
  * the relevant view
  */
 export type ConstraintDescriptor = {
-  [Dimension in ConstraintDimensions]: {
+  [Dimension in ConstraintTypes]: {
     attribute: Dimension;
   };
-}[ConstraintDimensions] & {
+}[ConstraintTypes] & {
   ref: {current: Instance | null};
 };
 
+const NAME_TO_ANCHORS = {
+  width: 'widthAnchor',
+  height: 'heightAnchor',
+  centerX: 'centerXAnchor',
+  centerY: 'centerYAnchor',
+  leading: 'leadingAnchor',
+  trailing: 'trailingAnchor',
+  top: 'topAnchor',
+  bottom: 'bottomAnchor',
+};
+
 function descriptionToAnchor(description: ConstraintDescriptor): unknown {
-  let anchor;
-  switch (description.attribute) {
-    case 'width':
-      anchor = (description.ref.current?.backing as any).widthAnchor;
-      break;
-    case 'height':
-      anchor = (description.ref.current?.backing as any).heightAnchor;
-      break;
-  }
+  let instance = description.ref.current;
+  if (!instance)
+    throw new Error(
+      'descriptionToAnchor: attempted to resolve anchor for null instance',
+    );
+
+  if (instance.is === 'text')
+    throw new Error(
+      'descriptionToAnchor: attempted to attach constraint to text instance',
+    );
+
+  let backing: unknown = instance.backing;
+
+  if (description && !(backing as any).__window_contentView__)
+    (backing as any).translatesAutoresizingMaskIntoConstraints = false;
+
+  let anchor = (backing as any)[NAME_TO_ANCHORS[description.attribute]];
+
   if (!anchor)
     throw new Error(
-      `Failed to resolve constraint descriptor ${description.attribute} to corresponding anchor`,
+      `descriptionToAnchor: failed to resolve constraint descriptor ${description.attribute} to corresponding anchor`,
     );
+
   return anchor;
 }
 
@@ -48,14 +84,37 @@ export function createConstraint(
   let anchor = descriptionToAnchor(description);
 
   let constraint;
-  if (typeof props.equal === 'number') {
-    constraint = (anchor as any).constraintEqualToConstant(props.equal);
-  } else {
-    constraint = (anchor as any).constraintEqualToAnchor(
-      descriptionToAnchor(props.equal),
-      1,
-    );
-  }
+
+  const methodNames: {[K in ConstraintRelation]: [string, string]} = {
+    eq: ['constraintEqualToConstant', 'constraintEqualToAnchor'],
+    lte: [
+      'constraintLessThanOrEqualToConstant',
+      'constraintLessThanOrEqualToAnchor',
+    ],
+    gte: [
+      'constraintGreaterThanOrEqualToConstant',
+      'constraintGreaterThanOrEqualToAnchor',
+    ],
+  };
+
+  // FIXME: dawg
+  let ohGodIAmSorry = (relation: ConstraintRelation) => {
+    if (relation in props) {
+      let target = (props as any)[relation];
+      let method =
+        typeof target === 'number'
+          ? methodNames[relation][0]
+          : methodNames[relation][1];
+      constraint = (anchor as any)[method](
+        typeof target === 'number' ? target : descriptionToAnchor(target),
+      );
+    }
+  };
+
+  ohGodIAmSorry('eq'); ohGodIAmSorry('lte'); ohGodIAmSorry('gte');
+
+  if (!constraint)
+    throw new Error(`createConstraint: failed to create constraint`);
 
   return constraint;
 }

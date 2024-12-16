@@ -86,7 +86,10 @@ let hostConfig: HostConfigLikeActually<
 
     switch (parentInstance.is) {
       case 'window':
-        (parentInstance.backing as any).contentView = individualChildView();
+        let child = individualChildView();
+        (parentInstance.backing as any).contentView = child;
+        // prevent tAMIC = false
+        (child as any).__window_contentView__ = true;
         break;
       case 'view':
         (parentInstance.backing as any).addSubview(individualChildView());
@@ -110,6 +113,7 @@ let hostConfig: HostConfigLikeActually<
         );
         instance.backing = createConstraint(instance.props);
       }
+      console.log('[Constraints] enabling:', inspect(instance));
       (instance.backing as any).active = true;
     }
   },
@@ -163,7 +167,7 @@ export function create(element: React.ReactNode) {
     /* concurrentUpdatesByDefaultOverride */ false,
     /* identifierPrefix */ '',
     /* onRecoverableError */ (error) =>
-      console.log('Capstone Recoverable Error:', error),
+      console.log('Capstone Recoverable Error:', error, error.stack),
     /* transitionCallbacks */ null,
   );
   Reconciler.updateContainer(element, root);

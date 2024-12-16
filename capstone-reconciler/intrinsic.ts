@@ -2,7 +2,8 @@ import {PropsWithChildren} from 'react';
 
 import {
   ConstraintDescriptor,
-  ConstraintRightSide,
+  ConstraintRelation,
+  ConstraintTarget,
   createConstraint,
 } from './constraints';
 import {operation} from 'capstone-bridge';
@@ -14,7 +15,9 @@ export type IntrinsicElementProps = {
   }>;
   label: {children: string};
   view: {children: React.ReactNode};
-  constraint: {let: ConstraintDescriptor} & ConstraintRightSide;
+  constraint: {
+    [K in ConstraintRelation]: {[P in K]: ConstraintTarget};
+  }[ConstraintRelation] & {let: ConstraintDescriptor};
   button: {onClick?: () => void; children: string};
 };
 
@@ -60,7 +63,7 @@ type IntrinsicElements = {
 export const intrinsicElementConstructors = {
   window(props) {
     let window = $.NSWindow.alloc.initWithContentRectStyleMaskBackingDefer(
-      $.NSMakeRect(0, 0, 400, 400),
+      $.NSMakeRect(0, 0, 0, 0),
       $.NSTitledWindowMask |
         $.NSWindowStyleMaskClosable |
         $.NSWindowStyleMaskMiniaturizable,

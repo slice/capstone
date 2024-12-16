@@ -9,15 +9,21 @@ function App() {
     increment();
   }
 
-  const views = useConstraints({
-    container: {width: 300, height: 100},
-  });
+  const views = useConstraints((c) => ({
+    container: {width: c.gte(300), height: c.gte(200)},
+    button: {},
+  }));
 
   return (
     <window title='hello, capstone'>
       <view ref={views.container}>
-        <button onClick={handleClick}>{String(counter)}</button>
+        <button ref={views.button} onClick={handleClick}>
+          {String(counter)}
+        </button>
       </view>
+
+      <constraint let={views.button.centerX} eq={views.container.centerX} />
+      <constraint let={views.button.centerY} eq={views.container.centerY} />
     </window>
   );
 }
