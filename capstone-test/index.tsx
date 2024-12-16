@@ -1,14 +1,19 @@
 import {run, useConstraints} from 'capstone';
-
-console.log(':3');
+import {useReducer} from 'react';
 
 function App() {
+  const [counter, increment] = useReducer((count) => count + 1, 0);
   const views = useConstraints<'container' | 'label'>();
+
+  function handleClick() {
+    console.log(':3');
+    increment();
+  }
 
   return (
     <window title='hello, capstone'>
       <view ref={views.container}>
-        <button onClick={() => console.log('hi')}>yo yo yo</button>
+        <button onClick={handleClick}>{String(counter)}</button>
       </view>
 
       <constraint let={views.container.width} equal={300} />

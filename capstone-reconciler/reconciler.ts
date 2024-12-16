@@ -1,4 +1,7 @@
-import ReactReconciler, {OpaqueRoot} from 'react-reconciler';
+import ReactReconciler, {
+  HostConfigLikeActually,
+  OpaqueRoot,
+} from 'react-reconciler';
 import {ConcurrentRoot, DefaultEventPriority} from 'react-reconciler/constants';
 import {inspect} from 'capstone-bridge/introspection';
 
@@ -15,17 +18,17 @@ function typeToIntrinsic(type: string): type is keyof IntrinsicElementProps {
 }
 
 // @ts-expect-error implement as you go
-let hostConfig: ReactReconciler.HostConfig<
+let hostConfig: HostConfigLikeActually<
   /* Type */ string,
   /* Props */ Record<string, any>,
   /* Container */ unknown,
   Instance,
   /* TextInstance */ TextInstance,
   /* SuspenseInstance */ never,
-  unknown,
-  unknown,
-  unknown,
-  unknown,
+  /* HydratableInstance */ unknown,
+  /* PublicInstance */ unknown,
+  /* HostContext */ unknown,
+  /* UpdatePayload */ Record<string, any>,
   unknown,
   unknown,
   unknown
@@ -55,7 +58,7 @@ let hostConfig: ReactReconciler.HostConfig<
     return intrinsicElementConstructors[type](props as any);
   },
   createTextInstance(text, _rootContainer, _hostContext, _internalHandle) {
-    return {is: 'text', content: text};
+    return {is: 'text', content: text, backingLabel: null};
   },
   shouldSetTextContent(_type, _props) {
     return false;
@@ -71,18 +74,22 @@ let hostConfig: ReactReconciler.HostConfig<
   },
   appendChildToContainer(_container, _child) {},
   appendInitialChild(parentInstance, child) {
-    console.log(':3', inspect(parentInstance), inspect(child));
+    console.log('appendInitialChild:', inspect(parentInstance), inspect(child));
     if (child.is === 'constraint') return;
-    let childView = () =>
-      child.is === 'text'
-        ? intrinsicElementConstructors.label({children: child.content})
-        : child.backing;
+
+    function individualChildView() {
+      if ('backing' in child) return child.backing;
+      return (child.backingLabel ??= intrinsicElementConstructors.label({
+        children: child.content,
+      }));
+    }
+
     switch (parentInstance.is) {
       case 'window':
-        (parentInstance.backing as any).contentView = childView();
+        (parentInstance.backing as any).contentView = individualChildView();
         break;
       case 'view':
-        (parentInstance.backing as any).addSubview(childView());
+        (parentInstance.backing as any).addSubview(individualChildView());
     }
   },
   maySuspendCommit(_type, _props) {
@@ -107,8 +114,9 @@ let hostConfig: ReactReconciler.HostConfig<
     }
   },
   commitTextUpdate(textInstance, _oldText, newText) {
-    // @ts-expect-error
-    textInstance.view.stringValue = newText;
+    textInstance.content = newText;
+    if (textInstance.backingLabel)
+      (textInstance.backingLabel as any).stringValue = newText;
   },
   detachDeletedInstance(_node) {},
   getChildHostContext(parentHostContext, _type, _rootContainer) {
@@ -124,18 +132,23 @@ let hostConfig: ReactReconciler.HostConfig<
       child.backing.close;
     }
   },
-  commitUpdate(
-    _instance,
-    _updatePayload,
-    _type,
-    _prevProps,
-    _nextProps,
-    _internalHandle,
-  ) {},
+  commitUpdate(instance, type, prevProps, newProps, _internalHandle) {
+    console.log(
+      'commitUpdate:',
+      inspect(instance),
+      type,
+      inspect(prevProps),
+      inspect(newProps),
+    );
+
+    if (instance.is === 'button') {
+      (instance.backing as any).title = newProps.children;
+    }
+  },
   supportsMutation: true,
 };
 
-let Reconciler = ReactReconciler(hostConfig);
+let Reconciler = ReactReconciler(hostConfig as any);
 
 export default Reconciler;
 

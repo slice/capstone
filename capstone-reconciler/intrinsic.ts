@@ -21,6 +21,7 @@ export type IntrinsicElementProps = {
 export type TextInstance = {
   is: 'text';
   content: string;
+  backingLabel: unknown;
 };
 
 export type Instance =
@@ -38,6 +39,7 @@ export type Instance =
       is: 'view';
       backing: unknown;
     }
+  | TextInstance
   | {
       is: 'constraint';
       backing: unknown;

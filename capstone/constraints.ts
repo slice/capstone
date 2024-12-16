@@ -31,8 +31,6 @@ export function useConstraints<Names extends string>(): ConstraintsMap<Names> {
       map[name] ??= {current: null};
 
       const callback = ((view: Instance) => {
-        console.log(`useViews: ${name}: got view:`, view, view.backing);
-
         if (!(name in map))
           throw new Error(
             `useConstraints: ${name} is somehow missing in the map when the ref callback was invoked`,
