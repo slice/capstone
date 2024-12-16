@@ -2,6 +2,8 @@
 
 <img src='https://b2.skip.lol/capstone4.png' align='right' width='300' />
 
+<br clear="right"/>
+
 > [!WARNING]
 > Work in progress. Not ready for production use. Caveat emptor, etc. etc.
 
