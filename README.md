@@ -1,12 +1,12 @@
 # capstone
 
+<img src='https://b2.skip.lol/capstone4.png' align='right' width='300' />
+
 > [!WARNING]
 > Work in progress. Not ready for production use. Caveat emptor, etc. etc.
 
 capstone is a [React] renderer for [AppKit] that lets you create
 native macOS apps using JavaScript.
-
-<img src='https://b2.skip.lol/capstone3.png' align='right' width='325' />
 
 [react]: https://react.dev
 [appkit]: https://developer.apple.com/documentation/appkit
@@ -36,14 +36,8 @@ function App() {
         </button>
       </view>
 
-      <constraint
-        let={views.button.centerX}
-        eq={views.container.centerX}
-      />
-      <constraint
-        let={views.button.centerY}
-        eq={views.container.centerY}
-      />
+      <constraint let={views.button.centerX} eq={views.container.centerX} />
+      <constraint let={views.button.centerY} eq={views.container.centerY} />
     </window>
   );
 }
