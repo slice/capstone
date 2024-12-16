@@ -1,4 +1,4 @@
-import {Instance, InstanceProps} from './instance';
+import {Instance, IntrinsicElementProps} from './intrinsic';
 
 export const CONSTRAINT_DIMENSIONS = ['width', 'height'] as const;
 
@@ -37,7 +37,9 @@ function descriptionToAnchor(description: ConstraintDescriptor): unknown {
   return anchor;
 }
 
-export function createConstraint(props: InstanceProps['constraint']): unknown {
+export function createConstraint(
+  props: IntrinsicElementProps['constraint'],
+): unknown {
   let {let: description} = props;
   let anchor = descriptionToAnchor(description);
 

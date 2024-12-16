@@ -3,7 +3,7 @@ import {
   ConstraintDescriptor,
   ConstraintDimensions,
 } from 'capstone-reconciler/constraints';
-import {Instance} from 'capstone-reconciler/instance';
+import {Instance} from 'capstone-reconciler/intrinsic';
 
 /**
  * an object of arbitrarily named constraints

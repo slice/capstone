@@ -2,12 +2,16 @@ import ReactReconciler, {OpaqueRoot} from 'react-reconciler';
 import {ConcurrentRoot, DefaultEventPriority} from 'react-reconciler/constants';
 import {inspect} from 'capstone-bridge/introspection';
 
-import IntrinsicElements from './intrinsic';
-import {Instance, TextInstance} from './instance';
+import {
+  intrinsicElementConstructors,
+  Instance,
+  IntrinsicElementProps,
+  TextInstance,
+} from './intrinsic';
 import {createConstraint} from './constraints';
 
-function typeToIntrinsic(type: string): type is keyof IntrinsicElements {
-  return Object.hasOwn(IntrinsicElements, type);
+function typeToIntrinsic(type: string): type is keyof IntrinsicElementProps {
+  return Object.hasOwn(intrinsicElementConstructors, type);
 }
 
 // @ts-expect-error implement as you go
@@ -48,7 +52,7 @@ let hostConfig: ReactReconciler.HostConfig<
       throw new Error(`Capstone: unknown intrinsic element: ${type}`);
     }
 
-    return IntrinsicElements[type](props as any);
+    return intrinsicElementConstructors[type](props as any);
   },
   createTextInstance(text, _rootContainer, _hostContext, _internalHandle) {
     return {is: 'text', content: text};
@@ -71,7 +75,7 @@ let hostConfig: ReactReconciler.HostConfig<
     if (child.is === 'constraint') return;
     let childView = () =>
       child.is === 'text'
-        ? IntrinsicElements.label({children: child.content})
+        ? intrinsicElementConstructors.label({children: child.content})
         : child.backing;
     switch (parentInstance.is) {
       case 'window':
