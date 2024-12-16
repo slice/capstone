@@ -3,7 +3,7 @@
 > [!WARNING]
 > Work in progress. Not ready for production use. Caveat emptor, etc. etc.
 
-<img src='https://b2.skip.lol/capstone4.png' align='right' width='25%' />
+<img src='https://b2.skip.lol/capstone4.png' align='right' width='35%' />
 
 capstone is a [React] renderer for [AppKit] that lets you create
 native macOS apps using JavaScript.
