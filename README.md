@@ -2,8 +2,6 @@
 
 <img src='https://b2.skip.lol/capstone4.png' align='right' width='300' />
 
-<br clear="right"/>
-
 > [!WARNING]
 > Work in progress. Not ready for production use. Caveat emptor, etc. etc.
 
@@ -14,6 +12,8 @@ When you use capstone, your code runs inside of the [Open Scripting
 Architecture][osa] via [JavaScriptCore][jsc], which is shared with the onboard
 installation of Safari on the system. capstone abstracts over the [Objective-C
 bridge][bridge], directly interacting with system frameworks from JavaScript.
+
+<br clear="right"/>
 
 [react]: https://react.dev
 [appkit]: https://developer.apple.com/documentation/appkit
