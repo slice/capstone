@@ -1,15 +1,19 @@
 import {PropsWithChildren} from 'react';
+import {ConstraintDescriptor, ConstraintRelation} from './constraints';
 
 export type InstanceProps = {
   window: PropsWithChildren<{
     title?: string;
     movableByWindowBackground?: boolean;
   }>;
+  label: {children: string};
+  view: {children: React.ReactNode};
+  constraint: {let: ConstraintDescriptor} & ConstraintRelation;
 };
 
 export type TextInstance = {
   is: 'text';
-  view: unknown;
+  content: string;
 };
 
 export type Instance =
@@ -19,4 +23,16 @@ export type Instance =
       // TODO: restrict this type
       view: Instance;
     }
-  | TextInstance;
+  | {
+      is: 'label';
+      backing: unknown;
+    }
+  | {
+      is: 'view';
+      backing: unknown;
+    }
+  | {
+      is: 'constraint';
+      backing: unknown;
+      props: InstanceProps['constraint'];
+    };

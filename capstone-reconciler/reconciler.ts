@@ -3,6 +3,52 @@ import {ConcurrentRoot, DefaultEventPriority} from 'react-reconciler/constants';
 
 import IntrinsicElements from './intrinsic';
 import {Instance, TextInstance} from './instance';
+import {createConstraint} from './constraints';
+
+function typeToIntrinsic(type: string): type is keyof IntrinsicElements {
+  return Object.hasOwn(IntrinsicElements, type);
+}
+
+function inspect(thing: any): string {
+  if (Number.isNaN(thing)) {
+    return 'NaN';
+  } else if (thing === null) {
+    return '[null]';
+  }
+
+  switch (typeof thing) {
+    case 'object':
+      let output = '';
+      if ('is' in thing) {
+        // TODO: use symbol instead
+        output += `<${thing.is} `;
+      } else {
+        output += '{';
+      }
+
+      for (let key in thing) {
+        if (key === 'is') continue;
+        output += inspect(key) + ': ' + inspect(thing[key]);
+        output += ', ';
+      }
+
+      output += 'is' in thing ? '>' : '}';
+      return output;
+    case 'string':
+      return '"' + thing + '"';
+    case 'number':
+    case 'bigint':
+      return String(thing);
+    case 'boolean':
+      return String(thing);
+    case 'function':
+      return '[function]';
+    case 'undefined':
+      return '[undefined]';
+    case 'symbol':
+      return '[symbol]';
+  }
+}
 
 // @ts-expect-error implement as you go
 let hostConfig: ReactReconciler.HostConfig<
@@ -38,14 +84,14 @@ let hostConfig: ReactReconciler.HostConfig<
   clearContainer(_container) {},
   resetAfterCommit(_container) {},
   createInstance(type, props, _rootContainer, _hostContext, _internalHandle) {
-    if (!Object.prototype.hasOwnProperty.call(IntrinsicElements, type)) {
+    if (!typeToIntrinsic(type)) {
       throw new Error(`Capstone: unknown intrinsic element: ${type}`);
     }
 
-    return IntrinsicElements[type](props);
+    return IntrinsicElements[type](props as any);
   },
   createTextInstance(text, _rootContainer, _hostContext, _internalHandle) {
-    return {is: 'text', view: $.NSTextField.labelWithString(text)};
+    return {is: 'text', content: text};
   },
   shouldSetTextContent(_type, _props) {
     return false;
@@ -61,19 +107,39 @@ let hostConfig: ReactReconciler.HostConfig<
   },
   appendChildToContainer(_container, _child) {},
   appendInitialChild(parentInstance, child) {
-    if (parentInstance.is === 'window') {
-      parentInstance.view = child;
-      // @ts-expect-error
-      parentInstance.backing.contentView = child.view;
+    console.log(':3', inspect(parentInstance), inspect(child));
+    if (child.is === 'constraint') return;
+    let childView = () =>
+      child.is === 'text'
+        ? IntrinsicElements.label({children: child.content})
+        : child.backing;
+    switch (parentInstance.is) {
+      case 'window':
+        (parentInstance.backing as any).contentView = childView();
+        break;
+      case 'view':
+        (parentInstance.backing as any).addSubview(childView());
     }
   },
   maySuspendCommit(_type, _props) {
     return false;
   },
   commitMount(instance, _type, _props, _internalInstanceHandle) {
+    console.log('commitMount:', inspect(instance));
     if (instance.is === 'window') {
       // @ts-expect-error
       instance.backing.makeKeyAndOrderFront($());
+    }
+
+    if (instance.is === 'constraint') {
+      if (!instance.backing) {
+        console.log(
+          '[Constraints] deferred creation:',
+          inspect(instance.props),
+        );
+        instance.backing = createConstraint(instance.props);
+      }
+      (instance.backing as any).active = true;
     }
   },
   commitTextUpdate(textInstance, _oldText, newText) {
@@ -83,6 +149,10 @@ let hostConfig: ReactReconciler.HostConfig<
   detachDeletedInstance(_node) {},
   getChildHostContext(parentHostContext, _type, _rootContainer) {
     return parentHostContext;
+  },
+  getPublicInstance(instance) {
+    // TODO: maybe don't expose
+    return instance;
   },
   removeChildFromContainer(_container, child) {
     if (child.is === 'window') {

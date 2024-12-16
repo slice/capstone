@@ -9,7 +9,6 @@
     "jsx": "react-jsx",
     "strict": true,
     "noUncheckedIndexedAccess": true,
-    "noPropertyAccessFromIndexSignature": true,
     "noImplicitOverride": true,
     "isolatedModules": true
   }

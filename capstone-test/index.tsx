@@ -1,16 +1,20 @@
-import {run, useInterval} from 'capstone';
-import {useState} from 'react';
+import {run, useViews} from 'capstone';
 
 console.log(':3');
 
 function App() {
-  const [text, setText] = useState('neat');
+  const views = useViews<'container' | 'label'>();
 
-  useInterval(() => {
-    setText(String(Math.random()));
-  }, 100);
+  return (
+    <window title='hello, capstone'>
+      <view ref={views.container}>
+        <label ref={views.label}>nice</label>
+      </view>
 
-  return <window title='hello, capstone'>{text}</window>;
+      <constraint let={views.container.width} equal={300} />
+      <constraint let={views.container.height} equal={100} />
+    </window>
+  );
 }
 
 run(<App />);

@@ -7,6 +7,7 @@ declare module 'react' {
   namespace JSX {
     interface IntrinsicElements {
       window: InstanceProps['window'];
+      constraint: ConstraintProps;
     }
   }
 }
