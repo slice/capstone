@@ -1,5 +1,5 @@
 import {PropsWithChildren} from 'react';
-import {ConstraintDescriptor, ConstraintRelation} from './constraints';
+import {ConstraintDescriptor, ConstraintRightSide} from './constraints';
 
 export type InstanceProps = {
   window: PropsWithChildren<{
@@ -8,7 +8,7 @@ export type InstanceProps = {
   }>;
   label: {children: string};
   view: {children: React.ReactNode};
-  constraint: {let: ConstraintDescriptor} & ConstraintRelation;
+  constraint: {let: ConstraintDescriptor} & ConstraintRightSide;
 };
 
 export type TextInstance = {

@@ -1,12 +1,17 @@
 import {Instance, InstanceProps} from './instance';
 
-export type ConstraintDimensions = 'width' | 'height';
+export const CONSTRAINT_DIMENSIONS = ['width', 'height'] as const;
 
-export type ConstraintRelation = {
+export type ConstraintDimensions = (typeof CONSTRAINT_DIMENSIONS)[number];
+
+export type ConstraintRightSide = {
   equal: number | ConstraintDescriptor;
 };
 
-// points to a dimension, and stashes a ref to the owning view
+/**
+ * a descriptor specifies a certain dimension and stashes a ref-like object to
+ * the relevant view
+ */
 export type ConstraintDescriptor = {
   [Dimension in ConstraintDimensions]: {
     attribute: Dimension;

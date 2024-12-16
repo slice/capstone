@@ -1,9 +1,9 @@
-import {run, useViews} from 'capstone';
+import {run, useConstraints} from 'capstone';
 
 console.log(':3');
 
 function App() {
-  const views = useViews<'container' | 'label'>();
+  const views = useConstraints<'container' | 'label'>();
 
   return (
     <window title='hello, capstone'>
