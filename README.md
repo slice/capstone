@@ -1,12 +1,12 @@
 # capstone
 
-<img src='https://b2.skip.lol/capstone4.png' align='right' width='300' />
-
 > [!WARNING]
 > Work in progress. Not ready for production use. Caveat emptor, etc. etc.
 
 capstone is a [React] renderer for [AppKit] that lets you create
 native macOS apps using JavaScript.
+
+<img src='https://b2.skip.lol/capstone4.png' align='right' width='300' />
 
 When you use capstone, your code runs inside of the [Open Scripting
 Architecture][osa] via [JavaScriptCore][jsc], which is shared with the onboard
