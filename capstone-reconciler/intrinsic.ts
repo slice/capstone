@@ -5,6 +5,7 @@ import {
   ConstraintRightSide,
   createConstraint,
 } from './constraints';
+import {operation} from 'capstone-bridge';
 
 export type IntrinsicElementProps = {
   window: PropsWithChildren<{
@@ -14,6 +15,7 @@ export type IntrinsicElementProps = {
   label: {children: string};
   view: {children: React.ReactNode};
   constraint: {let: ConstraintDescriptor} & ConstraintRightSide;
+  button: {onClick?: () => void; children: string};
 };
 
 export type TextInstance = {
@@ -40,6 +42,10 @@ export type Instance =
       is: 'constraint';
       backing: unknown;
       props: IntrinsicElementProps['constraint'];
+    }
+  | {
+      is: 'button';
+      backing: unknown;
     };
 
 /** { <intrinsic_name>: (props: IntrinsicElementProps[<intrinsic_name>]) => Instance */
@@ -76,6 +82,21 @@ export const intrinsicElementConstructors = {
     return {
       is: 'view',
       backing: $.NSView.alloc.initWithFrame($.NSMakeRect(0, 0, 0, 0)),
+    };
+  },
+  button(props) {
+    let {target = null, action = null} = props.onClick
+      ? operation(props.onClick)
+      : {};
+    let button = $.NSButton.buttonWithTitleTargetAction(
+      props.children,
+      target,
+      action,
+    );
+    return {
+      is: 'button',
+      backing: button,
+      operation: target, // prevent gc
     };
   },
   constraint(props) {

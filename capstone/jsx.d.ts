@@ -12,6 +12,8 @@ declare module 'react' {
       constraint: IntrinsicElementProps['constraint'];
       // @ts-expect-error conflict
       label: IntrinsicElementProps['label'];
+      // @ts-expect-error conflict
+      button: IntrinsicElementProps['button'];
     }
   }
 }

@@ -8,7 +8,7 @@ function App() {
   return (
     <window title='hello, capstone'>
       <view ref={views.container}>
-        <label ref={views.label}>nice</label>
+        <button onClick={() => console.log('hi')}>yo yo yo</button>
       </view>
 
       <constraint let={views.container.width} equal={300} />

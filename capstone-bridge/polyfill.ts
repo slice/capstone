@@ -1,3 +1,5 @@
+import {operation} from '.';
+
 const kCFRunLoopDefaultMode = 'kCFRunLoopDefaultMode';
 
 // cribbed from https://gist.github.com/umireon/d1d449be666053b005e48db48aad6c46
@@ -6,14 +8,14 @@ function foundationTimer(
   ms: number,
   repeats: boolean = false,
 ) {
-  let operation = $.NSBlockOperation.blockOperationWithBlock(callback);
+  const {target, action} = operation(callback);
   // FIXME: creating a timer with 0 delay doesn't really work, but we should be
   // using performBlock: for that anyways probably.
   const effectiveDelaySeconds = Math.max(1, ms) / 1000;
   let timer = $.NSTimer.timerWithTimeIntervalTargetSelectorUserInfoRepeats(
     effectiveDelaySeconds,
-    operation,
-    'main',
+    target,
+    action,
     null,
     repeats,
   );
