@@ -3,21 +3,47 @@
 > [!WARNING]
 > Work in progress. Not ready for production use. Caveat emptor, etc. etc.
 
-<img src='https://b2.skip.lol/capstone.png' align='right' width='325' />
-
 capstone is a [React] renderer for [AppKit] that lets you create
 native macOS apps using JavaScript.
+
+<img src='https://b2.skip.lol/capstone3.png' align='right' width='325' />
 
 [react]: https://react.dev
 [appkit]: https://developer.apple.com/documentation/appkit
 
 ```tsx
-import {run} from 'capstone';
+import {run, useConstraints} from 'capstone';
+import {useReducer} from 'react';
 
 function App() {
+  const [count, increment] = useReducer((num) => num + 1, 0);
+
+  function handleClick() {
+    console.log(':3');
+    increment();
+  }
+
+  const views = useConstraints(({gte}) => ({
+    container: {width: gte(300), height: gte(200)},
+    button: {},
+  }));
+
   return (
-    <window title='my cool app'>
-      hello from capstone
+    <window title='hello, capstone'>
+      <view ref={views.container}>
+        <button ref={views.button} onClick={handleClick}>
+          {String(count)}
+        </button>
+      </view>
+
+      <constraint
+        let={views.button.centerX}
+        eq={views.container.centerX}
+      />
+      <constraint
+        let={views.button.centerY}
+        eq={views.container.centerY}
+      />
     </window>
   );
 }
